@@ -1,70 +1,64 @@
 <?php
-//feito por sarah rabelo e isabela
-abstract class Pessoa{ 
-    
+// Feito por Sarah Rabelo e Isabela
+
+abstract class Pessoa {
     public $nome;
     public $cpf;
 
-    public function __construct($nome, $cpf){
+    public function __construct($nome, $cpf) {
         $this->nome = $nome;
         $this->cpf = $cpf;
     }
-    public function postInclude($valor){
-        $valor = $_POST[$valor];
-    }   
-    
-}   
-class Aluno extends Pessoa { 
+}
+
+class Aluno extends Pessoa {
     public $ra;
 
-    public function __construct($ra) {
+    public function __construct($nome, $cpf, $ra) {
         parent::__construct($nome, $cpf);
         $this->ra = $ra;
     }
 }
 
-function criarAluno() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nome = $_POST['nome'];
-        $ra = $_POST['ra'];
-
-        $aluno = new Aluno($nome, $cpf, $ra);
-
-        return $aluno; 
-    }
-    return null; 
-}
-
-$aluno = criarAluno();
-
-if ($aluno) {
-    echo "Nome: " . $aluno->nome . "<br>";
-    echo "RA: " . $aluno->ra . "<br>";
-}
-class Professor extends Pessoa{ 
+class Professor extends Pessoa {
     public $siape;
 
-    public function __construct($siape){
+    public function __construct($nome, $cpf, $siape) {
+        parent::__construct($nome, $cpf);
         $this->siape = $siape;
     }
-}   
+}
 
-function criarProfessor() {
+function criarPessoa() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nome = $_POST['nome'];
-        $ra = $_POST['siape'];
+        $cpf = $_POST['cpf'];
+        $tipo = $_POST['tipo'];
 
-        $professor = new Professor($nome, $siape);
-
-        return $professor; 
+        if ($tipo === 'aluno' && isset($_POST['ra']) && !empty($_POST['ra'])) {
+            $ra = $_POST['ra'];
+            return new Aluno($nome, $cpf, $ra);
+        } elseif ($tipo === 'professor' && isset($_POST['siape']) && !empty($_POST['siape'])) {
+            $siape = $_POST['siape'];
+            return new Professor($nome, $cpf, $siape);
+        }
     }
     return null; 
 }
 
-$professor = criarProfessor();
+$pessoa = criarPessoa();
 
-if ($professor) {
-    echo "Nome: " . $professor->nome . "<br>";
-    echo "siape: " . $professor->ra . "<br>";
+if ($pessoa instanceof Aluno) {
+    echo "Aluno criado:<br>";
+    echo "Nome: " . $pessoa->nome . "<br>";
+    echo "CPF: " . $pessoa->cpf . "<br>";
+    echo "RA: " . $pessoa->ra . "<br>";
+} elseif ($pessoa instanceof Professor) {
+    echo "Professor criado:<br>";
+    echo "Nome: " . $pessoa->nome . "<br>";
+    echo "CPF: " . $pessoa->cpf . "<br>";
+    echo "SIAPE: " . $pessoa->siape . "<br>";
+} else {
+    echo "Nenhum registro criado. Por favor, preencha todos os campos corretamente.";
 }
 ?>

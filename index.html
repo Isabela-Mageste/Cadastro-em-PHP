@@ -10,16 +10,24 @@
             const tipo = document.getElementById('tipo').value;
             const raField = document.getElementById('raField');
             const siapeField = document.getElementById('siapeField');
+            const raInput = document.getElementById('ra');
+            const siapeInput = document.getElementById('siape');
 
             if (tipo === 'aluno') {
                 raField.style.display = 'block';
+                raInput.required = true;
                 siapeField.style.display = 'none';
+                siapeInput.required = false;
             } else if (tipo === 'professor') {
                 raField.style.display = 'none';
+                raInput.required = false;
                 siapeField.style.display = 'block';
+                siapeInput.required = true;
             } else {
                 raField.style.display = 'none';
                 siapeField.style.display = 'none';
+                raInput.required = false;
+                siapeInput.required = false;
             }
         }
     </script>
@@ -27,7 +35,7 @@
 <body>
     <div class="container">
         <h1>Formulário de Cadastro</h1>
-        <form action="processar.php" method="post">
+        <form action="processa.php" method="post">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required>
 
@@ -40,16 +48,15 @@
                 <option value="aluno">Aluno</option>
                 <option value="professor">Professor</option>
             </select>
-            <p></p>
 
             <div id="raField" style="display: none;">
                 <label for="ra">RA:</label>
-                <input type="text" id="ra" name="ra" required>
+                <input type="text" id="ra" name="ra">
             </div>
 
             <div id="siapeField" style="display: none;">
                 <label for="siape">SIAPE:</label>
-                <input type="text" id="siape" name="siape" required>
+                <input type="text" id="siape" name="siape">
             </div>
 
             <button type="submit">Enviar</button>
@@ -57,7 +64,6 @@
     </div>
 
     <script>
-        // Chama a função ao carregar a página para esconder os campos
         toggleFields();
     </script>
 </body>
