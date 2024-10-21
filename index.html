@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Formulário</title>
+    <script>
+        function toggleFields() {
+            const tipo = document.getElementById('tipo').value;
+            const raField = document.getElementById('raField');
+            const siapeField = document.getElementById('siapeField');
+
+            if (tipo === 'aluno') {
+                raField.style.display = 'block';
+                siapeField.style.display = 'none';
+            } else if (tipo === 'professor') {
+                raField.style.display = 'none';
+                siapeField.style.display = 'block';
+            } else {
+                raField.style.display = 'none';
+                siapeField.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulário de Cadastro</h1>
+        <form action="processar.php" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required>
+
+            <label for="tipo">Tipo:</label>
+            <select id="tipo" name="tipo" required onchange="toggleFields()">
+                <option value="">Selecione</option>
+                <option value="aluno">Aluno</option>
+                <option value="professor">Professor</option>
+            </select>
+            <p></p>
+
+            <div id="raField" style="display: none;">
+                <label for="ra">RA:</label>
+                <input type="text" id="ra" name="ra" required>
+            </div>
+
+            <div id="siapeField" style="display: none;">
+                <label for="siape">SIAPE:</label>
+                <input type="text" id="siape" name="siape" required>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        // Chama a função ao carregar a página para esconder os campos
+        toggleFields();
+    </script>
+</body>
+</html>
